@@ -77,7 +77,7 @@ async function getNasaPictures() {
 // add to favorites
 function saveFavorite(itemUrl) {
   resultsArr.forEach((item) => {
-    if (item.url.includes(itemUrl)) {
+    if (item.url.includes(itemUrl) && !favorites[itemUrl]) {
       favorites[itemUrl] = item;
 
       saveConfirmed.hidden = false;
@@ -85,6 +85,9 @@ function saveFavorite(itemUrl) {
       setTimeout(() => {
         saveConfirmed.hidden = true;
       }, 2000);
+
+      // localStorage
+      localStorage.setItem('nasaFavorites', JSON.stringify(favorites));
     }
   })
 }
