@@ -5,7 +5,7 @@ const saveConfirmed = document.querySelector('.save-confirmed');
 const loader = document.querySelector('.loader');
 
 // api
-count = 10;
+const count = 10;
 const apiKey = 'DEMO_KEY';
 const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`;
 
@@ -13,7 +13,8 @@ let resultsArr = [];
 let favorites = {};
 
 function showContent(page) {
-  window.scrollTo({top:0, behavior: 'instant'});
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  loader.classList.add('hidden');
 
   if (page === 'results') {
     resultsNav.classList.remove('hidden');
@@ -22,13 +23,12 @@ function showContent(page) {
     resultsNav.classList.add('hidden');
     favoritesNav.classList.remove('hidden');
   }
-  loader.classList.add('hidden');
 }
 
 function createDOMNodes(page) {
   const currArray = page === 'results' ? resultsArr : Object.values(favorites);
 
-  resultsArr.forEach((result) => {
+  currArray.forEach((result) => {
     const card = document.createElement('div');
     card.classList.add('card');
 
@@ -78,14 +78,14 @@ function createDOMNodes(page) {
     link.appendChild(image);
     card.append(link, cardBody);
     imagesContainer.appendChild(card);
-  })
+  });
 }
 
 // 
 function updateDOM(page) {
   // from localStorage
   if (localStorage.getItem('nasaFavorites')) {
-    favorites = JSON.parse(localStorage.getItem('nasaFavorites'))
+    favorites = JSON.parse(localStorage.getItem('nasaFavorites'));
   } 
 
   imagesContainer.textContent = '';
@@ -101,7 +101,6 @@ async function getNasaPictures() {
   try {
     const response = await fetch(apiUrl);
     resultsArr = await response.json();
-    console.log('resultsArr: ', resultsArr);
     updateDOM('results');
   } catch (error) {
     console.log('error: ', error);
@@ -127,15 +126,13 @@ function saveFavorite(itemUrl) {
 }
 
 function removeFavorite(itemUrl) {
-  resultsArr.forEach((item) => {
-    if (favorites[itemUrl]) {
-      delete favorites[itemUrl];
+  if (favorites[itemUrl]) {
+    delete favorites[itemUrl];
 
-      // localStorage
-      localStorage.setItem('nasaFavorites', JSON.stringify(favorites));
-      updateDOM('favorites')
-    }
-  })
+    // localStorage
+    localStorage.setItem('nasaFavorites', JSON.stringify(favorites));
+    updateDOM('favorites');
+  } 
 }
 
 // on load

@@ -35,7 +35,8 @@ body {
 /* Navigation */
 .navigation-container {
   position: fixed;
-  top: 0;
+  top: -20px;
+  border-top: 20px solid whitesmoke;
 }
 
 .navigation-items {
@@ -59,7 +60,7 @@ body {
 }
 
 .clickable:hover {
-  color: rgb(13, 115, 218);
+  color: rgb(0, 99, 199);
 }
 
 /* Images Container */
@@ -86,7 +87,6 @@ body {
   border-radius: 5px 5px 0 0;
 }
 
-
 .card-body {
   padding: 20px;
 }
@@ -95,8 +95,6 @@ body {
   margin: 10px auto;
   font-size: 24px;
 }
-
-
 
 /* Save Confirmation */
 .save-confirmed {
